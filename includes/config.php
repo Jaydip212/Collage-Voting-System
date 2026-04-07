@@ -11,8 +11,8 @@ define('DB_CHARSET', 'utf8mb4');
 // ============================================================
 // SITE CONFIGURATION
 // ============================================================
-define('SITE_NAME', 'ABC College of Engineering');
-define('SITE_SHORT_NAME', 'ABC College');
+define('SITE_NAME', 'Haribhai V Desai College Pune-02');
+define('SITE_SHORT_NAME', 'HVD College');
 define('SITE_TAGLINE', 'Digital Democracy – Your Vote, Your Voice');
 define('BASE_URL', 'http://localhost/collage%20voting%20system');
 define('OTP_EXPIRY_MINUTES', 2);

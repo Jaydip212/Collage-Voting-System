@@ -10,7 +10,7 @@ $totalVotes     = $pdo->query("SELECT COUNT(*) FROM votes")->fetchColumn();
 $totalDepts     = $pdo->query("SELECT COUNT(*) FROM departments")->fetchColumn();
 
 $pageTitle = 'About Us';
-$pageDesc  = 'Learn about the ABC College of Engineering Digital Voting System — secure, transparent and modern.';
+$pageDesc  = 'Learn about the Haribhai V Desai college pune-02 Engineering Digital Voting System — secure, transparent and modern.';
 require_once __DIR__ . '/includes/header.php';
 ?>
 

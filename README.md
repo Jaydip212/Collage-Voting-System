@@ -1,4 +1,4 @@
-# 🗳️ College Voting System – Setup & Run Guide
+﻿# 🗳️ College Voting System – Setup & Run Guide
 
 ## ✅ Prerequisites
 - **XAMPP** (PHP 7.4+ / 8.x) installed at `C:\xampp\`
@@ -206,4 +206,5 @@ Since this is a college demo project without email server:
 
 ---
 
-**Built with 💙 for ABC College of Engineering | Final Year Project 2026**
+**Built with 💙 for Haribhai V Desai College Pune-02 | Final Year Project 2026**
+

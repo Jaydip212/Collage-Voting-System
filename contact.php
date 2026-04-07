@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $pageTitle = 'Contact Us';
-$pageDesc  = 'Get in touch with the ABC College of Engineering Voting System support team.';
+$pageDesc  = 'Get in touch with the Haribhai V Desai College Pune-02 Voting System support team.';
 require_once __DIR__ . '/includes/header.php';
 ?>
 
