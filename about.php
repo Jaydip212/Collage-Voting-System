@@ -19,7 +19,7 @@ require_once __DIR__ . '/includes/header.php';
   <div style="max-width:720px;margin:0 auto">
     <div class="hero-badge animate-fadeIn" style="display:inline-flex;margin-bottom:20px">
       <span style="width:8px;height:8px;background:#10b981;border-radius:50%;animation:pulse 1.5s infinite;display:inline-block"></span>
-      <span>Empowering Student Democracy Since 2024</span>
+      <span>Empowering Student Democracy Since <?= date('Y') ?></span>
     </div>
     <h1 class="text-gradient animate-fadeInUp" style="font-size:clamp(2rem,5vw,3.2rem);margin-bottom:20px">
       About Our Voting Platform

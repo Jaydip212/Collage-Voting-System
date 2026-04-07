@@ -14,7 +14,44 @@ define('DB_CHARSET', 'utf8mb4');
 define('SITE_NAME', 'Haribhai V Desai College Pune-02');
 define('SITE_SHORT_NAME', 'HVD College');
 define('SITE_TAGLINE', 'Digital Democracy – Your Vote, Your Voice');
-define('BASE_URL', 'http://localhost/collage%20voting%20system');
+
+// ── AUTO-DETECT BASE_URL (PHP 8.0+ compatible) ───────────────
+// Works on ANY laptop / server without manual config changes!
+if (!defined('BASE_URL')) {
+    $protocol   = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host       = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $docRoot    = realpath($_SERVER['DOCUMENT_ROOT'] ?? '');
+    $projectDir = realpath(__DIR__ . '/..');   // one level up from /includes
+
+    if ($docRoot && $projectDir && strpos($projectDir, $docRoot) === 0) {
+        // Normal case: project is inside htdocs
+        $relPath = substr($projectDir, strlen($docRoot));
+        $relPath = str_replace('\\', '/', $relPath);
+
+        // Encode each path segment separately (PHP 8.0 safe – no lookbehind)
+        $segments = explode('/', $relPath);
+        $encoded  = array_map(function($seg) {
+            return rawurlencode(rawurldecode($seg));
+        }, $segments);
+        $relPath  = implode('/', $encoded);
+
+        define('BASE_URL', rtrim($protocol . '://' . $host . $relPath, '/'));
+    } else {
+        // Fallback – strip known sub-folder names from SCRIPT_NAME
+        $knownSubs   = ['admin','student','teacher','hod','api','includes','uploads'];
+        $scriptParts = array_values(array_filter(
+            explode('/', $_SERVER['SCRIPT_NAME'] ?? ''), 'strlen'
+        ));
+        $pathParts = [];
+        foreach ($scriptParts as $part) {
+            if (in_array($part, $knownSubs)) break;
+            if (pathinfo($part, PATHINFO_EXTENSION)) break;
+            $pathParts[] = rawurlencode(rawurldecode($part));
+        }
+        define('BASE_URL', rtrim($protocol . '://' . $host . '/' . implode('/', $pathParts), '/'));
+    }
+}
+
 define('OTP_EXPIRY_MINUTES', 2);
 define('SESSION_TIMEOUT_MINUTES', 30);
 

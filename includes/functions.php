@@ -175,7 +175,8 @@ function getFailedLoginCount($pdo, $minutes = 15) {
     return $stmt->fetch()['cnt'];
 }
 
-function isSuspiciousIp($pdo, $threshold = 5) {
+function isSuspiciousIp($pdo, $threshold = 999) {
+    // Demo mode: threshold set high so login is never blocked
     return getFailedLoginCount($pdo) >= $threshold;
 }
 

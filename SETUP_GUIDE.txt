@@ -1,0 +1,79 @@
+╔══════════════════════════════════════════════════════════════╗
+║   HARIBHAI V DESAI COLLEGE - VOTING SYSTEM                   ║
+║   SETUP GUIDE (Any Laptop / Any XAMPP)                       ║
+╚══════════════════════════════════════════════════════════════╝
+
+STEP 1 — COPY PROJECT FOLDER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Copy this entire folder to:
+    C:\xampp\htdocs\
+OR
+    C:\wamp\www\
+
+Final path should be like:
+    C:\xampp\htdocs\collage voting system\
+OR rename to no-spaces:
+    C:\xampp\htdocs\voting\
+
+STEP 2 — START XAMPP
+━━━━━━━━━━━━━━━━━━━━
+1. Open XAMPP Control Panel
+2. Click START on Apache
+3. Click START on MySQL
+   (Both should show green)
+
+STEP 3 — IMPORT DATABASE
+━━━━━━━━━━━━━━━━━━━━━━━━
+1. Open browser → http://localhost/phpmyadmin
+2. Click "New" (left panel)
+3. Database name: college_voting_system
+4. Click Create
+5. Click the database → click "Import" tab
+6. Choose file: [project folder] → database → voting_system.sql
+7. Click "Go" / Import
+
+STEP 4 — OPEN THE PROJECT
+━━━━━━━━━━━━━━━━━━━━━━━━━
+If folder name is "collage voting system":
+→ http://localhost/collage%20voting%20system/
+
+If you renamed folder to "voting":
+→ http://localhost/voting/
+
+NOTE: BASE_URL is AUTO-DETECTED — No config change needed!
+
+STEP 5 — LOGIN CREDENTIALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👑 ADMIN LOGIN:
+   Email    : admin@college.edu
+   Password : admin123
+   URL      : http://localhost/[folder]/login.php
+
+🏛️ HOD LOGIN:
+   Email    : hod.cs@college.edu
+   Password : admin123
+   URL      : http://localhost/[folder]/login.php
+
+👨‍🎓 STUDENT/TEACHER:
+   → Register at /register.php
+   → Admin must approve from admin panel
+
+TROUBLESHOOTING
+━━━━━━━━━━━━━━━
+❌ "Not Found" error?
+   → Check folder is inside htdocs
+   → Use %20 for spaces in URL
+   → Make sure Apache is running
+
+❌ Database error?
+   → Check MySQL is running in XAMPP
+   → Re-import voting_system.sql in phpMyAdmin
+
+❌ Photos not showing?
+   → Right-click "uploads" folder → Properties
+   → Make sure folder is not empty (default images included)
+
+═══════════════════════════════════════════════════
+Made with ❤️ for Haribhai V Desai College Pune-02
+═══════════════════════════════════════════════════
