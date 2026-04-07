@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Register – College Voting System</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html"><span class="ico">🗳️</span>ABC College Votes</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="login.html">Login</a>
+    <a class="nav-link active" href="register.html">Register</a>
+  </div>
+</nav>
+
+<div class="page-md" style="padding-top:90px">
+  <div class="fade">
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="width:62px;height:62px;border-radius:16px;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin:0 auto 12px">📝</div>
+      <h2 id="pageTitle" style="font-size:1.5rem;margin-bottom:4px">Create Account</h2>
+      <p style="color:var(--muted);font-size:.85rem">ABC College of Engineering</p>
+    </div>
+
+    <!-- Role Toggle -->
+    <div class="role-tabs" id="roleTabs" style="max-width:300px;margin:0 auto 20px">
+      <button class="role-tab active" data-role="student" onclick="setRole('student')">🎓 Student</button>
+      <button class="role-tab" data-role="teacher" onclick="setRole('teacher')">👩‍🏫 Teacher</button>
+    </div>
+
+    <div class="glass-card" style="padding:28px">
+      <div id="msgBox"></div>
+
+      <!-- OTP Banner -->
+      <div id="otpBanner" class="alert alert-demo" style="display:none">
+        <strong>🔔 DEMO MODE – OTP for Email Verification</strong>
+        <span id="otpDisplay" style="font-size:2.2rem;font-weight:900;letter-spacing:6px;color:#f59e0b;margin:8px 0;display:block"></span>
+        <small style="color:var(--muted)">In production this is sent via email. Valid for 10 minutes.</small>
+      </div>
+
+      <!-- REGISTRATION FORM -->
+      <form id="regForm" enctype="multipart/form-data" onsubmit="doRegister(event)">
+        <!-- Common -->
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input type="text" name="name" id="regName" class="form-control" required placeholder="Enter your full name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address *</label>
+          <input type="email" name="email" id="regEmail" class="form-control" required placeholder="you@college.edu">
+        </div>
+
+        <!-- Student Fields -->
+        <div id="studentFields">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="form-group">
+              <label class="form-label">Roll Number *</label>
+              <input type="text" name="rollNo" id="rollNo" class="form-control" placeholder="e.g. BCA-2024-001">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Mobile</label>
+              <input type="tel" name="mobile" class="form-control" placeholder="9876543210">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="form-group">
+              <label class="form-label">Department *</label>
+              <select name="deptId" id="deptStudent" class="form-control">
+                <option value="">Select</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Year *</label>
+              <select name="year" class="form-control">
+                <option value="1">1st Year</option>
+                <option value="2" selected>2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="form-group">
+              <label class="form-label">Division</label>
+              <input type="text" name="div" class="form-control" placeholder="e.g. A">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Gender</label>
+              <select name="gender" class="form-control">
+                <option>Male</option><option>Female</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teacher Fields -->
+        <div id="teacherFields" style="display:none">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="form-group">
+              <label class="form-label">Teacher ID *</label>
+              <input type="text" name="teacherId" id="teacherId" class="form-control" placeholder="e.g. TCH-CS-001">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Designation</label>
+              <input type="text" name="desig" class="form-control" placeholder="e.g. Asst. Professor">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Department *</label>
+            <select name="deptIdT" id="deptTeacher" class="form-control">
+              <option value="">Select</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="form-group">
+            <label class="form-label">Password *</label>
+            <input type="password" id="regPwd" class="form-control" required placeholder="Min 8 chars" minlength="8">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm Password *</label>
+            <input type="password" id="regPwd2" class="form-control" required placeholder="Repeat password">
+          </div>
+        </div>
+
+        <!-- Captcha -->
+        <div class="form-group">
+          <label class="form-label" id="capLabel">🔒 Security: </label>
+          <input type="number" id="capAns" class="form-control" required placeholder="Answer" min="0" max="20">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full btn-lg">
+          <i class="fas fa-user-plus"></i> Register & Send OTP
+        </button>
+        <p style="text-align:center;margin-top:14px;font-size:.8rem;color:var(--muted)">
+          Already registered? <a href="login.html" style="color:#a78bfa">Login here</a>
+        </p>
+      </form>
+
+      <!-- OTP Form -->
+      <form id="otpForm" style="display:none" onsubmit="doVerifyOtp(event)">
+        <p style="text-align:center;color:var(--muted);font-size:.88rem;margin-bottom:14px">Enter the 6-digit OTP shown above</p>
+        <div class="otp-inputs" id="otpBoxes">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+        </div>
+        <div class="otp-timer">Expires in <span id="otpCountdown">10:00</span></div>
+        <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top:14px">
+          <i class="fas fa-check-circle"></i> Verify & Complete Registration
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+let currentRole = 'student';
+let captchaAns = 0;
+let pendingRegData = null;
+
+// Fill departments
+const depts = DB.get('departments');
+['deptStudent','deptTeacher'].forEach(id => {
+  const sel = document.getElementById(id);
+  depts.forEach(d => sel.innerHTML += `<option value="${d.id}">${d.name}</option>`);
+});
+
+function setRole(role) {
+  currentRole = role;
+  document.querySelectorAll('.role-tab').forEach(t=>t.classList.toggle('active',t.dataset.role===role));
+  document.getElementById('studentFields').style.display = role==='student'?'':'none';
+  document.getElementById('teacherFields').style.display = role==='teacher'?'':'none';
+  // Required
+  document.getElementById('rollNo').required    = role==='student';
+  document.getElementById('teacherId').required = role==='teacher';
+  genCap();
+}
+
+function genCap() {
+  const a=Math.floor(Math.random()*9)+1, b=Math.floor(Math.random()*9)+1;
+  captchaAns = a+b;
+  document.getElementById('capLabel').textContent=`🔒 Security: ${a} + ${b} = ?`;
+  document.getElementById('capAns').value='';
+}
+
+function showMsg(msg,type='danger') {
+  document.getElementById('msgBox').innerHTML=`<div class="alert alert-${type}"><i class="fas fa-${type==='danger'?'times':'check'}-circle"></i>${msg}</div>`;
+}
+
+function doRegister(e) {
+  e.preventDefault();
+  if (parseInt(document.getElementById('capAns').value)!==captchaAns){showMsg('❌ Wrong CAPTCHA!');genCap();return;}
+  const pwd=document.getElementById('regPwd').value, pwd2=document.getElementById('regPwd2').value;
+  if (pwd.length<8){showMsg('❌ Password must be at least 8 characters.');return;}
+  if (pwd!==pwd2){showMsg('❌ Passwords do not match.');return;}
+
+  let data={};
+  if (currentRole==='student') {
+    const deptSel = document.getElementById('deptStudent');
+    data = {
+      name:document.getElementById('regName').value.trim(),
+      email:document.getElementById('regEmail').value.trim().toLowerCase(),
+      rollNo:document.getElementById('rollNo').value.trim(),
+      password:pwd,
+      dept: deptSel.options[deptSel.selectedIndex]?.text || '',
+      deptId: parseInt(deptSel.value)||0
+    };
+    if(!data.rollNo){showMsg('❌ Roll Number required.');return;}
+  } else {
+    const deptSel = document.getElementById('deptTeacher');
+    data = {
+      name:document.getElementById('regName').value.trim(),
+      email:document.getElementById('regEmail').value.trim().toLowerCase(),
+      teacherId:document.getElementById('teacherId').value.trim(),
+      password:pwd,
+      dept: deptSel.options[deptSel.selectedIndex]?.text || '',
+      deptId: parseInt(deptSel.value)||0
+    };
+    if(!data.teacherId){showMsg('❌ Teacher ID required.');return;}
+  }
+
+  const result = register(currentRole, data);
+  if (result.error){showMsg('❌ '+result.error);return;}
+
+  pendingRegData = data;
+  const otp = genOTP();
+  document.getElementById('otpDisplay').textContent = otp;
+  document.getElementById('otpBanner').style.display='flex';
+  document.getElementById('regForm').style.display='none';
+  document.getElementById('otpForm').style.display='block';
+  document.getElementById('roleTabs').style.display='none';
+  document.getElementById('pageTitle').textContent='Verify Email';
+  document.getElementById('msgBox').innerHTML='';
+  setupOtpBoxes('otpBoxes',null);
+  startOtpTimer('otpCountdown',600);
+}
+
+function doVerifyOtp(e) {
+  e.preventDefault();
+  const code=[...document.querySelectorAll('#otpBoxes .otp-inp')].map(b=>b.value).join('');
+  if (code.length<6){showMsg('❌ Enter all 6 digits.');return;}
+  if (!verifyOTP(code)){showMsg('❌ Invalid or expired OTP.');return;}
+  toast('✅ Registration complete! Waiting for admin approval.','s');
+  setTimeout(()=>{window.location.href=`login.html?role=${currentRole}`;},1200);
+}
+
+genCap();
+</script>
+</body>
+</html>

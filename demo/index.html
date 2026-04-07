@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>College Voting System – Digital Democracy</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html"><span class="ico">🗳️</span>ABC College Votes</a>
+  <div class="nav-links">
+    <a class="nav-link active" href="index.html">Home</a>
+    <a class="nav-link" href="login.html">Login</a>
+    <a class="nav-link" href="register.html">Register</a>
+    <a class="nav-btn" href="login.html"><i class="fas fa-sign-in-alt"></i>Get Started</a>
+  </div>
+</nav>
+
+<div class="page">
+  <!-- HERO -->
+  <div class="hero fade">
+    <div class="hero-badge"><i class="fas fa-shield-alt"></i>Secure Digital Voting 2026</div>
+    <h1>Your Vote.<br>Your Voice.<br>Your Future.</h1>
+    <p>ABC College of Engineering's official digital voting platform. Transparent, secure, and fair elections for all students, teachers, and faculty.</p>
+    <div class="hero-btns">
+      <a href="login.html" class="btn btn-primary btn-lg"><i class="fas fa-sign-in-alt"></i>Login to Vote</a>
+      <a href="register.html" class="btn btn-outline btn-lg"><i class="fas fa-user-plus"></i>Register Now</a>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid fade" id="statsGrid">
+    <div class="stat"><span class="stat-ico ico-p">🗳️</span><div><div class="stat-val" id="sElections">4</div><div class="stat-lbl">Elections</div></div></div>
+    <div class="stat"><span class="stat-ico ico-g">✅</span><div><div class="stat-val" id="sActive">2</div><div class="stat-lbl">Active Now</div></div></div>
+    <div class="stat"><span class="stat-ico ico-c">🎓</span><div><div class="stat-val" id="sStudents">3</div><div class="stat-lbl">Students</div></div></div>
+    <div class="stat"><span class="stat-ico ico-o">👩‍🏫</span><div><div class="stat-val" id="sTeachers">2</div><div class="stat-lbl">Teachers</div></div></div>
+    <div class="stat"><span class="stat-ico ico-g">📊</span><div><div class="stat-val" id="sVotes">—</div><div class="stat-lbl">Total Votes</div></div></div>
+  </div>
+
+  <!-- ACTIVE ELECTIONS -->
+  <div class="sec-hd fade">
+    <div class="sec-title">🔥 Active Elections</div>
+    <a href="login.html" class="btn btn-sm btn-outline">View All →</a>
+  </div>
+  <div class="elections-grid fade" id="activeElections"></div>
+
+  <!-- UPCOMING -->
+  <div class="sec-hd fade">
+    <div class="sec-title">⏳ Upcoming Elections</div>
+  </div>
+  <div class="elections-grid fade" id="upcomingElections"></div>
+
+  <!-- ANNOUNCEMENTS -->
+  <div class="sec-hd fade" style="margin-top:16px">
+    <div class="sec-title">📢 Announcements</div>
+  </div>
+  <div class="tc fade">
+    <div id="announcements" style="padding:8px 20px"></div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div style="margin-top:40px;text-align:center" class="fade">
+    <div class="sec-title" style="margin-bottom:24px">🚀 How It Works</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px">
+      <div class="glass-card" style="padding:28px;text-align:center">
+        <div style="font-size:2.2rem;margin-bottom:12px">📝</div>
+        <h3 style="font-size:.95rem;font-weight:700;margin-bottom:6px">1. Register</h3>
+        <p style="font-size:.8rem;color:var(--muted)">Create your account with your roll number or teacher ID</p>
+      </div>
+      <div class="glass-card" style="padding:28px;text-align:center">
+        <div style="font-size:2.2rem;margin-bottom:12px">🔑</div>
+        <h3 style="font-size:.95rem;font-weight:700;margin-bottom:6px">2. Login with OTP</h3>
+        <p style="font-size:.8rem;color:var(--muted)">Secure 2-factor login with OTP verification</p>
+      </div>
+      <div class="glass-card" style="padding:28px;text-align:center">
+        <div style="font-size:2.2rem;margin-bottom:12px">🗳️</div>
+        <h3 style="font-size:.95rem;font-weight:700;margin-bottom:6px">3. Vote</h3>
+        <p style="font-size:.8rem;color:var(--muted)">Cast your vote securely — one vote per election</p>
+      </div>
+      <div class="glass-card" style="padding:28px;text-align:center">
+        <div style="font-size:2.2rem;margin-bottom:12px">📊</div>
+        <h3 style="font-size:.95rem;font-weight:700;margin-bottom:6px">4. See Results</h3>
+        <p style="font-size:.8rem;color:var(--muted)">Live results with charts and leaderboards</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div style="text-align:center;margin-top:48px;padding:40px 20px" class="glass-card fade">
+    <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:10px">Ready to Participate?</h2>
+    <p style="color:var(--muted);margin-bottom:24px;font-size:.9rem">Login with your credentials or register a new account today.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="login.html?role=student" class="btn btn-primary"><i class="fas fa-graduation-cap"></i>Student Login</a>
+      <a href="login.html?role=teacher" class="btn btn-info"><i class="fas fa-chalkboard-teacher"></i>Teacher Login</a>
+      <a href="login.html?role=hod" class="btn btn-outline"><i class="fas fa-user-tie"></i>HOD Login</a>
+      <a href="login.html?role=admin" class="btn btn-warning"><i class="fas fa-cog"></i>Admin Login</a>
+    </div>
+  </div>
+</div>
+
+<footer>Built with 💙 for ABC College of Engineering | Final Year Project 2026</footer>
+
+<script src="app.js"></script>
+<script>
+// Load live data
+const elections = getElections();
+const votes     = DB.getO('votes');
+
+// Stats
+let totalVotes = 0;
+Object.values(votes).forEach(ev => totalVotes += Object.values(ev).reduce((a,b)=>a+b,0));
+document.getElementById('sElections').textContent = elections.length;
+document.getElementById('sActive').textContent    = elections.filter(e=>e.status==='active').length;
+document.getElementById('sStudents').textContent  = DB.get('students').length;
+document.getElementById('sTeachers').textContent  = DB.get('teachers').length;
+document.getElementById('sVotes').textContent     = totalVotes;
+
+// Election card builder
+function elCard(e) {
+  const total = getVoteCount(e.id);
+  const statusColors = { active:'badge-active', upcoming:'badge-upcoming', completed:'badge-completed' };
+  const typeColors   = { cr:'badge-cr',student:'badge-student',teacher:'badge-teacher',cultural:'badge-cultural',sports:'badge-active',hod:'badge-hod',general:'badge-teacher' };
+  return `<div class="ec" onclick="window.location.href='login.html'">
+    <span class="badge ${statusColors[e.status]||'badge-upcoming'}">
+      <i class="fas fa-${e.status==='active'?'circle':'clock'}"></i>${e.status.toUpperCase()}
+    </span>
+    <span class="badge ${typeColors[e.type]||'badge-student'}" style="margin-left:6px">${e.type.toUpperCase()}</span>
+    <div class="ec-title">${e.title}</div>
+    <div class="ec-desc">${e.desc}</div>
+    <div class="ec-meta">
+      <span><i class="fas fa-building"></i>${e.dept}</span>
+      <span><i class="fas fa-users"></i>${e.candidates.length} candidates</span>
+      <span><i class="fas fa-calendar"></i>${fmtDate(e.end)}</span>
+    </div>
+    ${e.status==='active'?`<div class="prog"><div class="prog-fill" style="width:60%"></div></div>`:''}
+    <div class="ec-footer">
+      <span style="font-size:.78rem;color:var(--muted)"><i class="fas fa-vote-yea"></i> ${total} votes cast</span>
+      <a href="login.html" class="btn btn-sm btn-primary">
+        ${e.status==='active'?'Vote Now':'View Details'} →
+      </a>
+    </div>
+  </div>`;
+}
+
+document.getElementById('activeElections').innerHTML   = elections.filter(e=>e.status==='active').map(elCard).join('') || '<p style="color:var(--muted)">No active elections right now.</p>';
+document.getElementById('upcomingElections').innerHTML = elections.filter(e=>e.status==='upcoming').map(elCard).join('')|| '<p style="color:var(--muted)">No upcoming elections scheduled.</p>';
+
+// Announcements
+const anns = DB.get('announcements');
+document.getElementById('announcements').innerHTML = anns.map(a=>`
+  <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+    <div style="width:38px;height:38px;border-radius:10px;background:${a.color};display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0">${a.icon}</div>
+    <div>
+      <div style="font-size:.88rem;font-weight:600;margin-bottom:3px">${a.title}</div>
+      <div style="font-size:.79rem;color:var(--muted);line-height:1.5">${a.body}</div>
+      <div style="font-size:.71rem;color:var(--dim);margin-top:4px">${fmtDate(a.date)}</div>
+    </div>
+  </div>`).join('');
+</script>
+</body>
+</html>

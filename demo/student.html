@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student Dashboard – College Voting System</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html"><span class="ico">🗳️</span>ABC College Votes</a>
+  <div class="nav-links">
+    <div style="display:flex;align-items:center;gap:12px;margin-right:20px">
+      <div id="uAvatar" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:700"></div>
+      <div>
+        <div id="uName" style="font-weight:600;font-size:.9rem;line-height:1.2"></div>
+        <div id="uRoll" style="font-size:.75rem;color:var(--muted)"></div>
+      </div>
+    </div>
+    <button class="btn btn-sm btn-outline" onclick="logout()"><i class="fas fa-sign-out-alt"></i>Logout</button>
+  </div>
+</nav>
+
+<div class="page" style="display:grid;grid-template-columns:300px 1fr;gap:24px">
+  
+  <!-- SIDEBAR -->
+  <div class="glass-card fade" style="height:fit-content;padding:24px">
+    <h3 style="font-size:1.1rem;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:12px">My Profile</h3>
+    <div style="font-size:.85rem;color:var(--muted);margin-bottom:20px">
+      <div style="margin-bottom:8px"><strong>Department:</strong> <span id="uDept"></span></div>
+      <div style="margin-bottom:8px"><strong>Year:</strong> <span id="uYear"></span></div>
+      <div style="margin-bottom:8px"><strong>Status:</strong> <span class="badge badge-active">✔ Verified</span></div>
+    </div>
+    <div class="alert alert-info">
+      <i class="fas fa-info-circle"></i>
+      <div style="font-size:.8rem;margin-top:4px">You can only vote once per election. Your vote is anonymous and final.</div>
+    </div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="fade" style="animation-delay:.1s">
+    <div class="sec-hd">
+      <div class="sec-title">🗳️ Elections Open For You</div>
+    </div>
+    
+    <div id="electionsList" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:40px"></div>
+
+    <div class="sec-hd">
+      <div class="sec-title">📊 Election Results</div>
+    </div>
+    <div id="resultsList" style="display:grid;grid-template-columns:1fr;gap:20px"></div>
+
+  </div>
+</div>
+
+<!-- VOTE MODAL -->
+<div id="voteModal" class="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);z-index:999;align-items:center;justify-content:center">
+  <div class="glass-card" style="width:100%;max-width:500px;padding:28px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h2 style="font-size:1.2rem;font-weight:700" id="mTitle">Cast Your Vote</h2>
+      <button onclick="closeModal()" style="background:none;border:none;color:var(--text);font-size:1.2rem;cursor:pointer"><i class="fas fa-times"></i></button>
+    </div>
+    <p style="color:var(--muted);font-size:.85rem;margin-bottom:20px">Select one candidate. This action cannot be undone.</p>
+    <div id="mCandidates" style="display:grid;gap:12px;margin-bottom:24px"></div>
+    <input type="hidden" id="mElectionId">
+    <button class="btn btn-primary btn-full" onclick="submitVote()"><i class="fas fa-check-circle"></i> Confirm Vote</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+const user = requireLogin('student');
+if(user){
+  document.getElementById('uName').textContent = user.name;
+  document.getElementById('uRoll').textContent = user.rollNo;
+  document.getElementById('uAvatar').textContent = initials(user.name);
+  document.getElementById('uDept').textContent = user.dept;
+  document.getElementById('uYear').textContent = user.year + (user.year==1?'st':user.year==2?'nd':user.year==3?'rd':'th') + ' Year';
+}
+
+function loadDashboard() {
+  const allE = getElections();
+  
+  // Filter elections for this student
+  // Active and matching dept/overall
+  const activeElections = allE.filter(e => e.status==='active' && (!e.deptId || e.deptId===user.deptId));
+  const completedE = allE.filter(e => e.status==='completed');
+
+  const elList = document.getElementById('electionsList');
+  if(!activeElections.length) {
+    elList.innerHTML = `<div class="glass-card" style="padding:40px 20px;text-align:center;grid-column:1/-1;color:var(--muted)"><i class="fas fa-box-open" style="font-size:2rem;margin-bottom:12px;opacity:0.5"></i><p>No active elections available for you right now.</p></div>`;
+  } else {
+    elList.innerHTML = activeElections.map(e => {
+      const voted = hasVoted(e.id);
+      return `<div class="ec" style="border:1px solid ${voted?'var(--success)':'rgba(255,255,255,.1)'}">
+        <span class="badge ${voted?'badge-completed':'badge-active'}">${voted?'<i class="fas fa-check"></i> VOTED':'ACTIVE'}</span>
+        <div class="ec-title" style="margin-top:8px">${e.title}</div>
+        <div class="ec-desc">${e.desc}</div>
+        <div class="ec-meta" style="margin-bottom:12px">
+          <span><i class="fas fa-users"></i>${e.candidates.length} candidates</span>
+          <span><i class="fas fa-calendar"></i>Ends ${fmtDate(e.end)}</span>
+        </div>
+        ${voted ? 
+          `<button class="btn btn-sm btn-outline btn-full" disabled style="opacity:.6"><i class="fas fa-check"></i> Vote Recorded</button>` : 
+          `<button class="btn btn-sm btn-primary btn-full" onclick="openModal(${e.id})"><i class="fas fa-person-booth"></i> Vote Now</button>`
+        }
+      </div>`;
+    }).join('');
+  }
+
+  // Results
+  const resList = document.getElementById('resultsList');
+  if(!completedE.length){
+    resList.innerHTML = `<p style="color:var(--muted)">No completed elections to show results for.</p>`;
+  } else {
+    resList.innerHTML = completedE.map(e => {
+      const res = getResults(e.id);
+      const winner = res.length ? res[0] : null;
+      return `<div class="glass-card" style="padding:20px">
+        <h4 style="margin-bottom:4px;font-size:1.1rem;display:flex;align-items:center;justify-content:space-between">
+          <span>${e.title}</span><span class="badge badge-completed">COMPLETED</span>
+        </h4>
+        <p style="font-size:.8rem;color:var(--muted);margin-bottom:16px">${getVoteCount(e.id)} total votes cast</p>
+        
+        ${winner ? `<div style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);padding:12px;border-radius:8px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+          <div style="font-size:2rem">🏆</div>
+          <div><div style="font-size:.75rem;color:var(--success);text-transform:uppercase;letter-spacing:1px;font-weight:700">Winner</div><div style="font-weight:bold;font-size:1.1rem">${winner.name}</div></div>
+        </div>` : ''}
+
+        <div style="display:grid;gap:12px">
+          ${res.map(c=>`
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px">
+                <span>${c.name}</span><span>${c.pct}% (${c.votes} votes)</span>
+              </div>
+              <div class="prog"><div class="prog-fill" style="width:${c.pct}%;background:${c.id===winner.id?'var(--success)':'var(--primary)'}"></div></div>
+            </div>
+          `).join('')}
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// Modal Logic
+function openModal(id) {
+  const e = getElectionById(id);
+  if(!e) return;
+  document.getElementById('mTitle').textContent = `Vote: ${e.title}`;
+  document.getElementById('mElectionId').value = id;
+  
+  document.getElementById('mCandidates').innerHTML = e.candidates.map(c=>`
+    <label class="glass-card" style="display:flex;align-items:center;padding:16px;cursor:pointer;border-radius:12px;border:1px solid rgba(255,255,255,.05);transition:all .2s">
+      <input type="radio" name="candidate" value="${c.id}" style="width:20px;height:20px;flex-shrink:0;margin-right:16px">
+      <div>
+        <div style="font-weight:600">${c.name}</div>
+        <div style="font-size:.78rem;color:var(--muted)">${c.dept} | ${c.type==='student'?c.year:c.desig}</div>
+      </div>
+    </label>
+  `).join('');
+
+  // Add click effect to labels
+  setTimeout(()=>{
+    document.querySelectorAll('input[name="candidate"]').forEach(r=>{
+      r.addEventListener('change', e=>{
+        document.querySelectorAll('#mCandidates label').forEach(l=>l.style.borderColor='rgba(255,255,255,.05)');
+        e.target.closest('label').style.borderColor='var(--primary)';
+      });
+    });
+  },50);
+
+  document.getElementById('voteModal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('voteModal').style.display = 'none';
+}
+
+function submitVote() {
+  const eid = document.getElementById('mElectionId').value;
+  const sel = document.querySelector('input[name="candidate"]:checked');
+  if(!sel) { toast('❌ Please select a candidate','d'); return; }
+  
+  const res = castVote(eid, sel.value);
+  if(res.error) { toast('❌ '+res.error,'d'); return; }
+  
+  toast('✅ Vote cast successfully!','s');
+  closeModal();
+  loadDashboard();
+}
+
+loadDashboard();
+</script>
+</body>
+</html>

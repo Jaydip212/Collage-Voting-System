@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login – College Voting System</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html"><span class="ico">🗳️</span>ABC College Votes</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link active" href="login.html">Login</a>
+    <a class="nav-link" href="register.html">Register</a>
+  </div>
+</nav>
+
+<div class="page-sm" style="display:flex;align-items:center;min-height:100vh;padding-top:80px">
+  <div style="width:100%" class="fade">
+
+    <!-- Logo -->
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="width:62px;height:62px;border-radius:16px;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin:0 auto 12px">🗳️</div>
+      <h2 id="pageTitle" style="font-size:1.5rem;margin-bottom:4px">Welcome Back</h2>
+      <p style="color:var(--muted);font-size:.85rem">ABC College of Engineering</p>
+    </div>
+
+    <!-- Role Tabs -->
+    <div class="role-tabs" id="roleTabs">
+      <button class="role-tab" data-role="student"  onclick="setRole('student')">🎓 Student</button>
+      <button class="role-tab" data-role="teacher"  onclick="setRole('teacher')">👩‍🏫 Teacher</button>
+      <button class="role-tab" data-role="hod"      onclick="setRole('hod')">🏛️ HOD</button>
+      <button class="role-tab" data-role="admin"    onclick="setRole('admin')">⚙️ Admin</button>
+    </div>
+
+    <!-- Card -->
+    <div class="glass-card" style="padding:28px">
+      <div id="msgBox"></div>
+
+      <!-- DEMO OTP Banner -->
+      <div id="otpBanner" class="alert alert-demo" style="display:none">
+        <strong>🔔 DEMO MODE – Your OTP</strong>
+        <span id="otpDisplay" style="font-size:2.2rem;font-weight:900;letter-spacing:6px;color:#f59e0b;margin:8px 0;display:block"></span>
+        <small style="color:var(--muted)">In production this is sent via email. Valid for 10 minutes.</small>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm" onsubmit="doLogin(event)">
+        <div class="form-group">
+          <label class="form-label" id="identLabel">📋 Roll Number or Email</label>
+          <div class="fi">
+            <i class="icon fas fa-user"></i>
+            <input type="text" id="identifier" class="form-control" required placeholder="Enter your ID or email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">🔑 Password</label>
+          <div class="fi">
+            <i class="icon fas fa-lock"></i>
+            <input type="password" id="password" class="form-control" required placeholder="Enter password">
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+            <input type="checkbox" id="showPwd" onchange="document.getElementById('password').type=this.checked?'text':'password'">
+            <label for="showPwd" style="font-size:.78rem;color:var(--muted);cursor:pointer">Show password</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" id="captchaLabel">🔒 Security: </label>
+          <input type="number" id="captchaAns" class="form-control" required placeholder="Answer" min="0" max="20">
+        </div>
+        <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top:4px">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+        <div style="display:flex;justify-content:space-between;margin-top:14px;font-size:.8rem">
+          <a href="forgot.html" style="color:var(--muted)">Forgot password?</a>
+          <a href="register.html" id="regLink" style="color:#a78bfa">Create Account →</a>
+        </div>
+      </form>
+
+      <!-- OTP FORM -->
+      <form id="otpForm" style="display:none" onsubmit="doOtp(event)">
+        <p style="text-align:center;color:var(--muted);font-size:.88rem;margin-bottom:16px">Enter the 6-digit OTP shown above</p>
+        <div class="otp-inputs" id="otpBoxes">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-inp" maxlength="1" inputmode="numeric">
+        </div>
+        <div class="otp-timer">Expires in <span id="otpCountdown">10:00</span></div>
+        <input type="hidden" id="otpHidden">
+        <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top:16px">
+          <i class="fas fa-check-circle"></i> Verify OTP
+        </button>
+        <div style="text-align:center;margin-top:12px">
+          <a href="login.html" style="font-size:.8rem;color:var(--muted)">← Back to Login</a>
+        </div>
+      </form>
+    </div>
+
+    <p style="text-align:center;margin-top:16px;font-size:.78rem;color:var(--muted)">
+      🔒 Secured with OTP 2-factor authentication
+    </p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+let currentRole = 'student';
+let pendingUser = null;
+let captchaAnswer = 0;
+
+// Set default role from URL
+const urlRole = new URLSearchParams(location.search).get('role');
+setRole(urlRole || 'student');
+
+function setRole(role) {
+  currentRole = role;
+  document.querySelectorAll('.role-tab').forEach(t => t.classList.toggle('active', t.dataset.role===role));
+  const labels = { student:'📋 Roll Number or Email', teacher:'🪪 Teacher ID or Email', hod:'🪪 HOD ID or Email', admin:'📧 Admin Email' };
+  document.getElementById('identLabel').textContent = labels[role];
+  document.getElementById('regLink').style.display = role==='admin'?'none':'';
+  genCaptcha();
+}
+
+function genCaptcha() {
+  const a = Math.floor(Math.random()*9)+1, b = Math.floor(Math.random()*9)+1;
+  captchaAnswer = a+b;
+  document.getElementById('captchaLabel').textContent = `🔒 Security: ${a} + ${b} = ?`;
+  document.getElementById('captchaAns').value = '';
+}
+
+function showMsg(msg, type='danger') {
+  document.getElementById('msgBox').innerHTML = `<div class="alert alert-${type}"><i class="fas fa-${type==='danger'?'times':'check'}-circle"></i>${msg}</div>`;
+}
+
+function doLogin(e) {
+  e.preventDefault();
+  if (parseInt(document.getElementById('captchaAns').value) !== captchaAnswer) {
+    showMsg('❌ Wrong CAPTCHA answer!'); genCaptcha(); return;
+  }
+  const identifier = document.getElementById('identifier').value.trim();
+  const password   = document.getElementById('password').value;
+  const result = login(currentRole, identifier, password);
+  if (result.error) { showMsg('❌ '+result.error); genCaptcha(); return; }
+  // Show OTP step
+  pendingUser = result.user;
+  const otp = genOTP();
+  document.getElementById('otpDisplay').textContent = otp;
+  document.getElementById('otpBanner').style.display = 'flex';
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('otpForm').style.display   = 'block';
+  document.getElementById('roleTabs').style.display  = 'none';
+  document.getElementById('pageTitle').textContent   = 'Verify OTP';
+  document.getElementById('msgBox').innerHTML        = '';
+  setupOtpBoxes('otpBoxes','otpHidden');
+  startOtpTimer('otpCountdown', 600);
+}
+
+function doOtp(e) {
+  e.preventDefault();
+  const code = [...document.querySelectorAll('#otpBoxes .otp-inp')].map(b=>b.value).join('');
+  if (code.length < 6) { showMsg('❌ Enter all 6 digits.'); return; }
+  if (!verifyOTP(code)) { showMsg('❌ Invalid or expired OTP.'); return; }
+  setSession(pendingUser);
+  toast('✅ Login successful! Redirecting…');
+  const dashMap = { admin:'admin.html', student:'student.html', teacher:'teacher.html', hod:'hod.html' };
+  setTimeout(()=>{ window.location.href = dashMap[pendingUser.role]||'index.html'; }, 800);
+}
+
+genCaptcha();
+</script>
+</body>
+</html>

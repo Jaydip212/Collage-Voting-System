@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Dashboard – College Voting System</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html"><span class="ico">⚙️</span>Admin Panel</a>
+  <div class="nav-links">
+    <div style="display:flex;align-items:center;gap:12px;margin-right:20px">
+      <div id="uAvatar" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;font-weight:700"></div>
+      <div>
+        <div id="uName" style="font-weight:600;font-size:.9rem;line-height:1.2"></div>
+        <div style="font-size:.75rem;color:var(--warning)">Super Admin</div>
+      </div>
+    </div>
+    <button class="btn btn-sm btn-outline" onclick="logout()"><i class="fas fa-sign-out-alt"></i>Logout</button>
+  </div>
+</nav>
+
+<div class="page" style="padding-top:100px">
+  
+  <div class="stats-grid fade" style="margin-bottom:30px">
+    <div class="stat"><span class="stat-ico ico-c">👨‍🎓</span><div><div class="stat-val" id="sStudents">0</div><div class="stat-lbl">Students</div></div></div>
+    <div class="stat"><span class="stat-ico ico-o">👩‍🏫</span><div><div class="stat-val" id="sTeachers">0</div><div class="stat-lbl">Teachers</div></div></div>
+    <div class="stat"><span class="stat-ico ico-p">🗳️</span><div><div class="stat-val" id="sElec">0</div><div class="stat-lbl">Total Elections</div></div></div>
+    <div class="stat"><span class="stat-ico ico-g">📊</span><div><div class="stat-val" id="sVotes">0</div><div class="stat-lbl">Votes Cast</div></div></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px" class="fade" style="animation-delay:.1s">
+    <!-- APPROVALS -->
+    <div class="glass-card" style="padding:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:12px">
+        <h3 style="font-size:1.1rem;margin:0">Pending Approvals</h3>
+        <span class="badge badge-warning" id="pendingCount">0</span>
+      </div>
+      <div id="pendingList" style="display:flex;flex-direction:column;gap:12px"></div>
+    </div>
+
+    <!-- ELECTIONS -->
+    <div class="glass-card" style="padding:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:12px">
+        <h3 style="font-size:1.1rem;margin:0">Elections Hub</h3>
+        <button class="btn btn-sm btn-primary" onclick="alert('Demo: Create Election modal would open here.')"><i class="fas fa-plus"></i> New</button>
+      </div>
+      <div id="elecAdminList" style="display:flex;flex-direction:column;gap:12px"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+<script>
+const user = requireLogin('admin');
+if(user){
+  document.getElementById('uName').textContent = user.name;
+  document.getElementById('uAvatar').textContent = initials(user.name);
+}
+
+function loadDashboard() {
+  const students = DB.get('students');
+  const teachers = DB.get('teachers');
+  const elections = DB.get('elections');
+  const votes = DB.getO('votes');
+
+  let totalVotes = 0;
+  Object.values(votes).forEach(ev => totalVotes += Object.values(ev).reduce((a,b)=>a+b,0));
+
+  document.getElementById('sStudents').textContent = students.length;
+  document.getElementById('sTeachers').textContent = teachers.length;
+  document.getElementById('sElec').textContent = elections.length;
+  document.getElementById('sVotes').textContent = totalVotes;
+
+  // Pending Approvals
+  const pendingS = students.filter(s=>!s.approved).map(s=>({...s, type:'student'}));
+  const pendingT = teachers.filter(t=>!t.approved).map(t=>({...t, type:'teacher'}));
+  const pending = [...pendingS, ...pendingT];
+
+  document.getElementById('pendingCount').textContent = pending.length;
+  const pList = document.getElementById('pendingList');
+  if(!pending.length){
+    pList.innerHTML = `<p style="color:var(--muted);text-align:center;padding:20px 0">No pending accounts. All caught up!</p>`;
+  } else {
+    pList.innerHTML = pending.map(p => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(0,0,0,.2);border-radius:8px">
+        <div>
+          <div style="font-weight:600;font-size:.9rem">${p.name} <span class="badge ${p.type==='student'?'badge-student':'badge-teacher'}">${p.type}</span></div>
+          <div style="font-size:.75rem;color:var(--muted)">${p.email} | ${p.rollNo||p.teacherId}</div>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-success" onclick="approveUser('${p.type}',${p.id})"><i class="fas fa-check"></i></button>
+          <button class="btn btn-sm btn-danger" onclick="alert('Demo: Delete/Reject logic')"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Elections List
+  const eList = document.getElementById('elecAdminList');
+  eList.innerHTML = elections.map(e => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(0,0,0,.2);border-radius:8px;border-left:4px solid ${e.status==='active'?'#10b981':e.status==='upcoming'?'#f59e0b':'#6366f1'}">
+      <div>
+        <div style="font-weight:600;font-size:.9rem">${e.title}</div>
+        <div style="font-size:.75rem;color:var(--muted);margin-top:2px">${e.type.toUpperCase()} | ${e.candidates.length} candidates</div>
+      </div>
+      <div>
+        <span class="badge ${e.status==='active'?'badge-active':e.status==='completed'?'badge-completed':'badge-upcoming'}">${e.status.toUpperCase()}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function approveUser(type, id) {
+  const arr = DB.get(type+'s');
+  const user = arr.find(u=>u.id===id);
+  if(user) {
+    user.approved = true;
+    DB.set(type+'s', arr);
+    toast('✅ User approved logic complete.','s');
+    loadDashboard();
+  }
+}
+
+loadDashboard();
+</script>
+</body>
+</html>
