@@ -1,0 +1,555 @@
+/* ============================================================
+   COLLEGE VOTING SYSTEM – PREMIUM UI UPGRADE v2.0
+   Append to style.css for ultra-premium SaaS look
+   ============================================================ */
+
+/* ── PREMIUM AURORA BACKGROUND ──────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background:
+    radial-gradient(ellipse 90% 70% at 15% 5%,  rgba(79,70,229,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 85% 90%, rgba(6,182,212,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(139,92,246,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: auroraShift 12s ease-in-out infinite alternate;
+}
+
+@keyframes auroraShift {
+  0%   { filter: hue-rotate(0deg) brightness(1); }
+  50%  { filter: hue-rotate(15deg) brightness(1.05); }
+  100% { filter: hue-rotate(-10deg) brightness(0.97); }
+}
+
+/* ── PARTICLE CANVAS ─────────────────────────────────────── */
+#particles-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── PREMIUM NAVBAR ──────────────────────────────────────── */
+.navbar {
+  background: rgba(10, 10, 20, 0.75) !important;
+  backdrop-filter: blur(28px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+  box-shadow: 0 1px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 5%; right: 5%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(79,70,229,0.6), rgba(6,182,212,0.6), transparent);
+}
+
+.navbar-brand-name {
+  font-size: 1.05rem !important;
+  background: linear-gradient(135deg, #fff, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.01em;
+}
+
+.navbar-links a {
+  position: relative;
+  font-size: 0.88rem !important;
+  letter-spacing: 0.01em;
+}
+
+.navbar-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: 16px; right: 16px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-light), var(--accent));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+
+.navbar-links a:hover::after,
+.navbar-links a.active::after { transform: scaleX(1); }
+
+/* ── PREMIUM HERO ────────────────────────────────────────── */
+.hero {
+  min-height: 100vh !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60%; left: -10%;
+  width: 70%; height: 140%;
+  background: radial-gradient(ellipse, rgba(79,70,229,0.15) 0%, transparent 65%);
+  animation: heroGlow 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes heroGlow {
+  0%   { transform: scale(1) rotate(0deg); opacity: 0.8; }
+  100% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+}
+
+/* ── PREMIUM BADGE ───────────────────────────────────────── */
+.hero-badge {
+  background: linear-gradient(135deg, rgba(79,70,229,0.2), rgba(6,182,212,0.15)) !important;
+  border: 1px solid rgba(99,102,241,0.4) !important;
+  box-shadow: 0 0 20px rgba(79,70,229,0.15), inset 0 1px 0 rgba(255,255,255,0.1);
+  color: #a5b4fc !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.02em;
+}
+
+/* ── FLOATING CARD PREMIUM ───────────────────────────────── */
+.floating-card {
+  background: rgba(15,15,35,0.7) !important;
+  border: 1px solid rgba(99,102,241,0.25) !important;
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(255,255,255,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.08) !important;
+}
+
+/* ── PREMIUM GLASS CARD ──────────────────────────────────── */
+.glass-card {
+  background: rgba(18, 18, 38, 0.6) !important;
+  backdrop-filter: blur(24px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.glass-card:hover {
+  background: rgba(25, 25, 50, 0.75) !important;
+  border-color: rgba(99,102,241,0.3) !important;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(99,102,241,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.1) !important;
+  transform: translateY(-4px) !important;
+}
+
+.glass-card::before {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent) !important;
+}
+
+/* ── PREMIUM BUTTONS ─────────────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, #4f46e5, #6366f1, #818cf8) !important;
+  box-shadow: 0 4px 24px rgba(79,70,229,0.45), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+  border: 1px solid rgba(129,140,248,0.3) !important;
+  letter-spacing: 0.02em;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 12px 40px rgba(79,70,229,0.65), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+}
+
+.btn-outline {
+  border: 1.5px solid rgba(255,255,255,0.15) !important;
+  backdrop-filter: blur(10px);
+}
+
+.btn-outline:hover {
+  background: rgba(79,70,229,0.15) !important;
+  border-color: rgba(99,102,241,0.5) !important;
+  box-shadow: 0 0 20px rgba(79,70,229,0.2);
+}
+
+/* ── PREMIUM GRADIENT TEXT ───────────────────────────────── */
+.text-gradient {
+  background: linear-gradient(135deg, #818cf8, #22d3ee, #a78bfa) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  background-size: 200% auto;
+  animation: gradientFlow 4s ease infinite;
+}
+
+@keyframes gradientFlow {
+  0%   { background-position: 0% center; }
+  50%  { background-position: 100% center; }
+  100% { background-position: 0% center; }
+}
+
+/* ── PREMIUM STAT CARD ───────────────────────────────────── */
+.stat-card {
+  background: rgba(18, 18, 38, 0.6) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 80px; height: 80px;
+  background: radial-gradient(circle, rgba(79,70,229,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(20px, -20px);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.45) !important;
+  border-color: rgba(99,102,241,0.25) !important;
+}
+
+.stat-value {
+  font-size: 2.2rem !important;
+  background: linear-gradient(135deg, #f1f5f9, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── PREMIUM SIDEBAR ─────────────────────────────────────── */
+.sidebar {
+  background: rgba(8, 8, 20, 0.95) !important;
+  border-right: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: 4px 0 40px rgba(0,0,0,0.5) !important;
+}
+
+.sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 1px; height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(99,102,241,0.4), rgba(6,182,212,0.3), transparent);
+  z-index: 1;
+}
+
+.sidebar-link {
+  border-radius: 10px !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.sidebar-link:hover {
+  background: rgba(79,70,229,0.12) !important;
+  color: #c7d2fe !important;
+  transform: translateX(3px);
+}
+
+.sidebar-link.active {
+  background: linear-gradient(135deg, rgba(79,70,229,0.8), rgba(99,102,241,0.6)) !important;
+  box-shadow: 0 4px 20px rgba(79,70,229,0.4), inset 0 1px 0 rgba(255,255,255,0.15) !important;
+  color: #fff !important;
+}
+
+/* ── PREMIUM TOPBAR ──────────────────────────────────────── */
+.topbar {
+  background: rgba(10, 10, 25, 0.8) !important;
+  backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: 0 1px 30px rgba(0,0,0,0.3) !important;
+}
+
+/* ── PREMIUM TABLE ───────────────────────────────────────── */
+.table-wrapper {
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
+  background: rgba(12, 12, 28, 0.6);
+  backdrop-filter: blur(20px);
+}
+
+.table th {
+  background: rgba(79,70,229,0.08) !important;
+  border-bottom: 1px solid rgba(99,102,241,0.2) !important;
+  color: #a5b4fc !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.08em;
+}
+
+.table tr:hover td {
+  background: rgba(79,70,229,0.07) !important;
+}
+
+/* ── PREMIUM FORM CONTROLS ───────────────────────────────── */
+.form-control {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1.5px solid rgba(255,255,255,0.1) !important;
+  transition: all 0.2s ease !important;
+}
+
+.form-control:focus {
+  background: rgba(255,255,255,0.07) !important;
+  border-color: rgba(99,102,241,0.6) !important;
+  box-shadow: 0 0 0 4px rgba(79,70,229,0.12), 0 0 20px rgba(79,70,229,0.1) !important;
+}
+
+/* ── ELECTION CARD PREMIUM ───────────────────────────────── */
+.election-card {
+  background: rgba(15, 15, 35, 0.65) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.election-card:hover {
+  border-color: rgba(99,102,241,0.35) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,102,241,0.2) !important;
+  transform: translateY(-6px) !important;
+}
+
+.election-banner {
+  background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(6,182,212,0.7)) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.election-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 60%, rgba(0,0,0,0.3));
+}
+
+/* ── PREMIUM BADGES ──────────────────────────────────────── */
+.badge-success {
+  background: rgba(16,185,129,0.12) !important;
+  border: 1px solid rgba(16,185,129,0.25) !important;
+  box-shadow: 0 0 12px rgba(16,185,129,0.1) !important;
+}
+
+.badge-danger {
+  background: rgba(239,68,68,0.12) !important;
+  border: 1px solid rgba(239,68,68,0.25) !important;
+  box-shadow: 0 0 12px rgba(239,68,68,0.1) !important;
+}
+
+/* ── PREMIUM MODAL ───────────────────────────────────────── */
+.modal {
+  background: rgba(12, 12, 28, 0.98) !important;
+  border: 1px solid rgba(99,102,241,0.2) !important;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) !important;
+  backdrop-filter: blur(40px) !important;
+}
+
+/* ── PREMIUM SECTION HEADING FADE-IN ─────────────────────── */
+.section-fade {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.section-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── GLOW DIVIDERS ───────────────────────────────────────── */
+.glow-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), rgba(6,182,212,0.5), transparent);
+  margin: 60px 0;
+  border: none;
+}
+
+/* ── PREMIUM CARD NUMBER BADGE ───────────────────────────── */
+.premium-num-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(79,70,229,0.3), rgba(6,182,212,0.2));
+  border: 1px solid rgba(99,102,241,0.3);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #a5b4fc;
+  margin-bottom: 12px;
+  box-shadow: 0 0 15px rgba(79,70,229,0.15);
+}
+
+/* ── GLOW HOVER FOR ICON BOXES ───────────────────────────── */
+.icon-box-glow {
+  transition: all 0.3s ease;
+}
+
+.icon-box-glow:hover {
+  box-shadow: 0 0 25px rgba(79,70,229,0.35) !important;
+  transform: scale(1.08);
+}
+
+/* ── PREMIUM SCROLLBAR ───────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, rgba(79,70,229,0.5), rgba(6,182,212,0.5));
+  border-radius: 10px;
+}
+
+/* ── GLOW TEXT AT CERTAIN SIZES ──────────────────────────── */
+h1.glow-text, h2.glow-text {
+  text-shadow: 0 0 60px rgba(79,70,229,0.3);
+}
+
+/* ── PREMIUM COUNTDOWN ───────────────────────────────────── */
+.countdown-item {
+  background: rgba(79,70,229,0.1) !important;
+  border: 1px solid rgba(99,102,241,0.2) !important;
+  border-radius: 8px !important;
+}
+
+.countdown-val {
+  color: #a5b4fc !important;
+  text-shadow: 0 0 20px rgba(129,140,248,0.5);
+}
+
+/* ── SHIMMER SKELETON LOADER ─────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ── WINNER CARD PREMIUM ─────────────────────────────────── */
+.winner-card {
+  background: linear-gradient(135deg, rgba(79,70,229,0.15), rgba(6,182,212,0.15)) !important;
+  border: 1px solid rgba(255,215,0,0.3) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(255,215,0,0.08) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.winner-card::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(255,215,0,0.05) 60deg, transparent 120deg);
+  animation: spin 8s linear infinite;
+  pointer-events: none;
+}
+
+/* ── HOMEPAGE SECTION PREMIUM BG ─────────────────────────── */
+.section-alt-bg {
+  background: rgba(79,70,229,0.04);
+  border-top: 1px solid rgba(99,102,241,0.1);
+  border-bottom: 1px solid rgba(99,102,241,0.1);
+}
+
+/* ── LIVE PULSE INDICATOR ────────────────────────────────── */
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #34d399;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.live-dot {
+  width: 7px; height: 7px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: livePulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(16,185,129,0.6);
+}
+
+@keyframes livePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0.6; }
+}
+
+/* ── PORTAL CARD HOVER GLOW ──────────────────────────────── */
+a:hover .glass-card[style*="border-top"] {
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(79,70,229,0.15) !important;
+}
+
+/* ── FOOTER PREMIUM ──────────────────────────────────────── */
+footer {
+  background: rgba(6, 6, 16, 0.98) !important;
+  border-top: 1px solid rgba(255,255,255,0.05) !important;
+  box-shadow: 0 -1px 40px rgba(0,0,0,0.4) !important;
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 5%; right: 5%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), rgba(6,182,212,0.4), transparent);
+}
+
+/* ── PREMIUM INPUT ICONS ─────────────────────────────────── */
+.form-control-icon .icon {
+  color: rgba(165,180,252,0.5) !important;
+}
+
+.form-control-icon .form-control:focus + .icon,
+.form-control-icon:focus-within .icon {
+  color: #818cf8 !important;
+}
+
+/* ── NEON GLOW BORDERS ON HOVER ──────────────────────────── */
+.neon-hover {
+  transition: all 0.3s ease;
+}
+.neon-hover:hover {
+  border-color: rgba(99,102,241,0.5) !important;
+  box-shadow: 0 0 20px rgba(79,70,229,0.2), 0 8px 30px rgba(0,0,0,0.4) !important;
+}
+
+/* ── GRADIENT BORDER CARD ────────────────────────────────── */
+.gradient-border-card {
+  position: relative;
+  border-radius: var(--r-lg);
+  background: rgba(15,15,35,0.7);
+}
+
+.gradient-border-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: calc(var(--r-lg) + 1px);
+  background: linear-gradient(135deg, rgba(79,70,229,0.5), rgba(6,182,212,0.3), rgba(139,92,246,0.4));
+  z-index: -1;
+}
+
+/* ── PREMIUM PAGE CONTENT AREA ───────────────────────────── */
+.page-content {
+  padding: 32px !important;
+}
+
+/* ── CANDIDATE CARD PREMIUM ──────────────────────────────── */
+.candidate-card {
+  background: rgba(15, 15, 35, 0.7) !important;
+  border: 1.5px solid rgba(255,255,255,0.08) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35) !important;
+}
+
+.candidate-card:hover {
+  border-color: rgba(99,102,241,0.4) !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(79,70,229,0.15) !important;
+}
+
+.candidate-card.selected {
+  border-color: #6366f1 !important;
+  background: rgba(79,70,229,0.15) !important;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.2), 0 20px 50px rgba(0,0,0,0.5) !important;
+}
+
+/* ── MEDIA RESPONSIVE PREMIUM ────────────────────────────── */
+@media (max-width: 768px) {
+  .page-content { padding: 20px !important; }
+}

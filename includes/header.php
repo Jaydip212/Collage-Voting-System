@@ -19,8 +19,11 @@ if (!isset($pageDesc))  $pageDesc  = SITE_TAGLINE;
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <!-- Main CSS -->
 <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/premium.css">
 </head>
 <body>
+<!-- Premium Particle Background -->
+<canvas id="particles-canvas"></canvas>
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
